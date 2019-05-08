@@ -12,7 +12,7 @@
         "name": "Premier League",
         "code": "PL",
         "plan": "TIER_ONE",
-        "lastUpdated": "2019-05-06T23:58:19Z"
+        "lastUpdated": "2019-05-07T20:45:01Z"
     },
     "matches": [
         {
@@ -613,7 +613,7 @@
             "matchday": 37,
             "stage": "REGULAR_SEASON",
             "group": "Regular Season",
-            "lastUpdated": "2019-05-06T23:58:19Z",
+            "lastUpdated": "2019-05-07T20:45:01Z",
             "score": {
                 "winner": "HOME_TEAM",
                 "duration": "REGULAR",
