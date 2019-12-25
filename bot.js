@@ -71,7 +71,6 @@ function getYear(data){
 
 //To find the results of the mighty Arsenal
 function getMatchDay(data){
-  console.log(data);
   var currMatchDay = data['matches'][0]['season']['currentMatchday'];
   return currMatchDay;
 }
