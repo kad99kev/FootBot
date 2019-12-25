@@ -7,8 +7,13 @@ var Twit = require('twit');
 var config = require('./config.js');
 var T = new Twit(config);
 
+var schedule = require('node-schedule');
+
 //Checking for current and latest matchday
 var currMatchDay = 1;
+var currYear = 2019;
+
+var tweetJob = schedule.scheduleJob(new Date() + 10, startBot);;
 
 startBot(); //Once loaded startBot
 
@@ -18,16 +23,25 @@ async function startBot(){
 
   var defaultData = await getData(); //Pre-load defaultData to get current matchday
 
+  curryear = getYear(defaultData);
+  console.log("Current year is " + currYear);
+
   currMatchDay = getMatchDay(defaultData); //Get current matchday from default data
-  console.log("Current matchday is: "+currMatchDay);
+  console.log("Current matchday is: " + currMatchDay);
 
   console.log("Requesting latest data");
   var newData = await getData();
 
-  var finished = getStatus(newData);
+  var finished = getMatchStatus(newData);
   if(finished){
     tweetIt(newData);
   }
+
+  tweetOn = nextDate(newData);
+  console.log("Next tweet will be on " + tweetOn);
+
+  tweetJob = schedule.scheduleJob(tweetOn, startBot);
+
 }
 
 
@@ -39,6 +53,7 @@ function tweetIt(data){
   function postTweet(err, data, response) {
     if(err){
       console.log("Did not tweet!"); //Doesn't tweet if duplicate either
+      console.log(err);
     }
     else{
       console.log("Tweeted!");
@@ -46,14 +61,22 @@ function tweetIt(data){
   }
 }
 
+// To find the current year we are in
+function getYear(data){
+  var currentYear = data['competition']['lastUpdated'];
+  currentYear = new Date(currentYear);
+  return currentYear.getFullYear();
+}
+
 
 //To find the results of the mighty Arsenal
 function getMatchDay(data){
+  console.log(data);
   var currMatchDay = data['matches'][0]['season']['currentMatchday'];
   return currMatchDay;
 }
 
-function getStatus(data){
+function getMatchStatus(data){
   var status;
   for(var i = 0; i < data['matches'].length; i++){
     var homeTeam = data['matches'][i]['homeTeam']['name'];
@@ -69,11 +92,45 @@ function getStatus(data){
   return false;
 }
 
+function nextDate(data){
+  var length = data['matches'].length;
+  var arsDate;
+  for(var i = 0; i < length; i++){
+    var homeTeam = data['matches'][i]['homeTeam']['name'];
+    var awayTeam = data['matches'][i]['awayTeam']['name'];
+
+    if(homeTeam == 'Arsenal FC' || awayTeam == 'Arsenal FC'){
+      arsDate = new Date(data['matches'][i]['utcDate']);
+      break;
+    }
+  }
+  var date1 = new Date(data['matches'][0]['utcDate']);
+  var date2 = new Date(data['matches'][length - 1]['utcDate']);
+
+  // Checks if Arsenal's match isn't rescheduled with resepect to current matchdate
+  if(date1 < arsDate < date2){
+    arsDate.setMinutes(arsDate.getMinutes() + 120);
+    var today = new Date();
+    if(today > arsDate){
+      today.setDate(today.getDate() + 1);
+      return today;
+    }
+    return arsDate;
+  }
+  // Will return the last match
+  else if(Math.round((date2 - date1) / 86400000) > 5){
+    return date1;
+  }
+  else{
+    return date2;
+  }
+}
+
 
 async function getData(){
   var params = {
       competitionId: 2021, //PL
-      season: 2018,
+      season: currYear,
       matchday: currMatchDay,
   };
 
