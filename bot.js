@@ -26,7 +26,6 @@ async function startBot(){
   curryear = getYear(defaultData);
   console.log("Current year is " + currYear);
 
-  var oldMatchDay = currMatchDay;
   currMatchDay = getMatchDay(defaultData); //Get current matchday from default data
   console.log("Current matchday is: " + currMatchDay);
 
@@ -34,11 +33,8 @@ async function startBot(){
   var newData = await getData();
 
   var finished = getMatchStatus(newData);
-  if(finished && oldMatchDay != currMatchDay){
+  if(finished){
     tweetIt(newData);
-  }
-  else{
-    console.log("Already tweeted for matchday " + currMatchDay);
   }
 
   tweetOn = nextDate(newData);
