@@ -53,7 +53,7 @@ function tweetIt(data){
   function postTweet(err, data, response) {
     if(err){
       console.log("Did not tweet!"); //Doesn't tweet if duplicate either
-      console.log(err);
+      console.log(err.allErrors[0]['message']);
     }
     else{
       console.log("Tweeted!");

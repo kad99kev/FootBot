@@ -12,7 +12,7 @@
         "name": "Premier League",
         "code": "PL",
         "plan": "TIER_ONE",
-        "lastUpdated": "2019-12-26T17:08:24Z"
+        "lastUpdated": "2019-12-26T18:14:44Z"
     },
     "matches": [
         {
@@ -28,7 +28,7 @@
             "matchday": 19,
             "stage": "REGULAR_SEASON",
             "group": "Regular Season",
-            "lastUpdated": "2019-12-26T17:08:24Z",
+            "lastUpdated": "2019-12-26T18:14:44Z",
             "score": {
                 "winner": "HOME_TEAM",
                 "duration": "REGULAR",
@@ -103,7 +103,7 @@
             "matchday": 19,
             "stage": "REGULAR_SEASON",
             "group": "Regular Season",
-            "lastUpdated": "2019-12-26T17:08:24Z",
+            "lastUpdated": "2019-12-26T18:14:44Z",
             "score": {
                 "winner": "HOME_TEAM",
                 "duration": "REGULAR",
@@ -173,7 +173,7 @@
             "matchday": 19,
             "stage": "REGULAR_SEASON",
             "group": "Regular Season",
-            "lastUpdated": "2019-12-26T17:08:24Z",
+            "lastUpdated": "2019-12-26T18:14:44Z",
             "score": {
                 "winner": "AWAY_TEAM",
                 "duration": "REGULAR",
@@ -243,7 +243,7 @@
             "matchday": 19,
             "stage": "REGULAR_SEASON",
             "group": "Regular Season",
-            "lastUpdated": "2019-12-26T17:08:24Z",
+            "lastUpdated": "2019-12-26T18:14:44Z",
             "score": {
                 "winner": "HOME_TEAM",
                 "duration": "REGULAR",
@@ -313,7 +313,7 @@
             "matchday": 19,
             "stage": "REGULAR_SEASON",
             "group": "Regular Season",
-            "lastUpdated": "2019-12-26T17:08:24Z",
+            "lastUpdated": "2019-12-26T18:14:44Z",
             "score": {
                 "winner": "DRAW",
                 "duration": "REGULAR",
@@ -383,7 +383,7 @@
             "matchday": 19,
             "stage": "REGULAR_SEASON",
             "group": "Regular Season",
-            "lastUpdated": "2019-12-26T17:08:24Z",
+            "lastUpdated": "2019-12-26T18:14:44Z",
             "score": {
                 "winner": "HOME_TEAM",
                 "duration": "REGULAR",
@@ -453,7 +453,7 @@
             "matchday": 19,
             "stage": "REGULAR_SEASON",
             "group": "Regular Season",
-            "lastUpdated": "2019-12-26T17:08:24Z",
+            "lastUpdated": "2019-12-26T18:14:44Z",
             "score": {
                 "winner": "DRAW",
                 "duration": "REGULAR",
@@ -519,17 +519,17 @@
                 "currentMatchday": 19
             },
             "utcDate": "2019-12-26T17:30:00Z",
-            "status": "SCHEDULED",
+            "status": "IN_PLAY",
             "matchday": 19,
             "stage": "REGULAR_SEASON",
             "group": "Regular Season",
-            "lastUpdated": "2019-12-26T17:08:24Z",
+            "lastUpdated": "2019-12-26T18:14:44Z",
             "score": {
-                "winner": null,
+                "winner": "HOME_TEAM",
                 "duration": "REGULAR",
                 "fullTime": {
-                    "homeTeam": null,
-                    "awayTeam": null
+                    "homeTeam": 3,
+                    "awayTeam": 1
                 },
                 "halfTime": {
                     "homeTeam": null,
