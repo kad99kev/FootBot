@@ -118,9 +118,19 @@ function nextDate(data){
   }
   // Will return the last match
   else if(Math.round((date2 - date1) / 86400000) > 5){
+    var today = new Date();
+    if(today > date1){
+      today.setDate(today.getDate() + 1);
+      return today;
+    }
     return date1;
   }
   else{
+    var today = new Date();
+    if(today > date2){
+      today.setDate(today.getDate() + 1);
+      return today;
+    }
     return date2;
   }
 }
