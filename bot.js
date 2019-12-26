@@ -10,7 +10,7 @@ var T = new Twit(config);
 var schedule = require('node-schedule');
 
 //Checking for current and latest matchday
-var currMatchDay = 1;
+var currMatchDay = 19;
 var currYear = 2019;
 
 var tweetJob = schedule.scheduleJob(new Date() + 10, startBot);;
@@ -26,6 +26,7 @@ async function startBot(){
   curryear = getYear(defaultData);
   console.log("Current year is " + currYear);
 
+  var oldMatchDay = currMatchDay;
   currMatchDay = getMatchDay(defaultData); //Get current matchday from default data
   console.log("Current matchday is: " + currMatchDay);
 
@@ -33,8 +34,11 @@ async function startBot(){
   var newData = await getData();
 
   var finished = getMatchStatus(newData);
-  if(finished){
+  if(finished && oldMatchDay != currMatchDay){
     tweetIt(newData);
+  }
+  else{
+    console.log("Already tweeted for matchday " + currMatchDay);
   }
 
   tweetOn = nextDate(newData);
