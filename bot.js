@@ -11,6 +11,7 @@ var schedule = require('node-schedule');
 
 //Checking for current and latest matchday
 var currMatchDay = 19;
+var oldMatchDay = 19;
 var currYear = 2019;
 
 var tweetJob = schedule.scheduleJob(new Date() + 10, startBot);;
@@ -21,22 +22,29 @@ async function startBot(){
 
   console.log("Bot is starting");
 
-  var defaultData = await getData(); //Pre-load defaultData to get current matchday
+  //Pre-load defaultData to get current matchday
+  var defaultData = await getData(currYear, currMatchDay);
 
   curryear = getYear(defaultData);
   console.log("Current year is " + currYear);
 
-  currMatchDay = getMatchDay(defaultData); //Get current matchday from default data
+  //Get current matchday from default data
+  currMatchDay = getMatchDay(defaultData);
   console.log("Current matchday is: " + currMatchDay);
 
+  // Using parameters obtained from default data
+  // We fetch latest data
   console.log("Requesting latest data");
-  var newData = await getData();
+  var newData = await getData(currYear, currMatchDay);
 
+  // Check if match is finished of the new matchday
   var finished = getMatchStatus(newData);
-  if(finished){
+  if(finished && oldMatchDay != currMatchDay){
     tweetIt(newData);
+    oldMatchDay = currMatchDay;
   }
 
+  // Schedule the tweet for the next match
   tweetOn = nextDate(newData);
   console.log("Next tweet will be on " + tweetOn);
 
@@ -110,13 +118,18 @@ function nextDate(data){
   if(date1 < arsDate < date2){
     arsDate.setMinutes(arsDate.getMinutes() + 120);
     var today = new Date();
+
+    // If the match is already over but API hasn't updated
     if(today > arsDate){
       today.setDate(today.getDate() + 1);
       return today;
     }
     return arsDate;
   }
-  // Will return the last match
+
+  // If the last game on the matchday is the rescheuled match
+  // We will use the game that will kickoff on time i.e the 1st match of the matchday
+  // If the 1st match is over, use today's date and check tomorrow
   else if(Math.round((date2 - date1) / 86400000) > 5){
     var today = new Date();
     if(today > date1){
@@ -125,6 +138,9 @@ function nextDate(data){
     }
     return date1;
   }
+  // If there has been no rescheduling for the enitre matchday
+  // then we can use the last match of the matchday to check for results
+  // otherwise we'll use today's date and check again tommorow
   else{
     var today = new Date();
     if(today > date2){
@@ -136,11 +152,12 @@ function nextDate(data){
 }
 
 
-async function getData(){
+async function getData(year, matchDay){
+  console.log(matchDay);
   var params = {
       competitionId: 2021, //PL
-      season: currYear,
-      matchday: currMatchDay,
+      season: year,
+      matchday: matchDay,
   };
 
   let fetchedData = await footballData.getMatchesFromCompetition(params);
